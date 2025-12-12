@@ -5,17 +5,7 @@ import 'package:task03/service/auth_services.dart';
 class AuthController extends GetxController {
   final AuthServices _authService = AuthServices();
 
-  Rx<AuthModel?> user = Rx<AuthModel?>(null);
   var isLoading = false.obs;
-
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-
-    //listen to firebase user stream
-    user.bindStream(_authService.userStream);
-  }
 
   Future<void> signUp(String email, String password) async {
     try {
