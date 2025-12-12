@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:task03/view/auth/auth_form.dart';
+import 'package:task03/view/auth/header.dart';
+
+class AuthView extends StatelessWidget {
+  const AuthView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final height = size.height;
+    final width = size.width;
+
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: width * 0.05,
+            vertical: height * 0.1,
+          ),
+          child: Column(
+            children: [
+              ///Header
+              AuthHeader(text: 'Sign up page'),
+
+              SizedBox(height: height * 0.02),
+
+              ///Login Form
+              AuthForm(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
