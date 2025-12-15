@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task03/controller/auth_controller.dart';
-import 'package:task03/service/auth_services.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -19,15 +18,21 @@ class HomeView extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                "Welcome ${FirebaseAuth.instance.currentUser!.email} \nyou have successfully logged in.",
+                "Welcome ${FirebaseAuth.instance.currentUser!.email} \nYou have successfully logged in.",
               ),
             ),
+
+            SizedBox(height: 10),
+
             Center(
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.cyan,
+                ),
                 child: Text("Logout"),
                 onPressed: () {
-                  authController.logout();
-                  Get.toNamed('/login');
+                  authController.logOut();
                 },
               ),
             ),

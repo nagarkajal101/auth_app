@@ -1,23 +1,46 @@
 import 'package:get/get.dart';
-import 'package:task03/model/auth_model.dart';
 import 'package:task03/service/auth_services.dart';
 
 class AuthController extends GetxController {
-  final AuthServices _authService = AuthServices();
+  final AuthServices authService = AuthServices();
 
-  var isLoading = false.obs;
+  final isLoading = false.obs;
 
-  Future<void> signUp(String email, String password) async {
+  ///SignUp function logic
+  Future<void> signUp({
+    required String fullName,
+    required String email,
+    required String password,
+    required String userName,
+    required String confirmPassword,
+    required int age,
+    required String gender,
+    required String phoneNumber,
+    required String address,
+    required DateTime dob,
+  }) async {
     try {
       isLoading.value = true;
       // Call signup service
-      AuthModel? newUser = await _authService.signup(email, password);
+      await authService.signup(
+        email: email,
+        password: password,
+        userName: userName,
+        confirmPassword: confirmPassword,
+        age: age,
+        phoneNumber: phoneNumber,
+        address: address,
+        dob: dob,
+        gender: gender,
+        fullName: fullName,
+      );
 
-      if (newUser != null) {
-        // user.value = newUser;
-        Get.offAllNamed('/home');
-        Get.snackbar('Account created', 'Signup successful');
-      }
+      Get.snackbar(
+        'Verify Email',
+        'A verification link has been sent. Please verify to continue.',
+      );
+
+      Get.offAllNamed('/login');
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {
@@ -25,26 +48,23 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  ///Login function logic
+  Future<void> logIn(String email, String password) async {
     try {
       isLoading.value = true;
-      AuthModel? userExist = await _authService.login(email, password);
+      await authService.login(email, password);
 
-      if (userExist != null) {
-        Get.snackbar('Success', 'Login successful');
-        Get.offAllNamed('/home');
-      }
+      Get.offAllNamed('/home');
     } catch (e) {
       Get.snackbar('Error', e.toString());
-      return;
     } finally {
       isLoading.value = false;
     }
   }
 
   ///Logout
-  void logout() async {
-    await _authService.logout();
+  void logOut() async {
+    await authService.logout();
     Get.offAllNamed('/login');
   }
 }
