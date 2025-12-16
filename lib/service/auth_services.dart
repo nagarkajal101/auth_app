@@ -79,7 +79,7 @@ class AuthServices {
       }
       
       return AuthModel.fromMap(doc.data() as Map<String, dynamic>);
-      // -------------------********************-----------------------not used now-----------
+      // -------------------********************------------------------------
     } on FirebaseAuthException catch (e) {
       throw Exception(e.message ?? 'Login failed');
     }
