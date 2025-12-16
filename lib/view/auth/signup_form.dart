@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:task03/controller/auth_controller.dart';
-import 'package:task03/controller/sign_up_controller.dart';
+import 'package:task03/controllers/auth_controller.dart';
+import 'package:task03/controllers/sign_up_controller.dart';
 
-class AuthForm extends StatelessWidget {
-  AuthForm({super.key});
+class SignUpForm extends StatelessWidget {
+  SignUpForm({super.key});
 
   final authController = Get.find<AuthController>();
 
@@ -227,7 +227,7 @@ class AuthForm extends StatelessWidget {
           ///spacing
           SizedBox(height: height * 0.04),
 
-///------------Sign up button--------------
+          ///------------Sign up button--------------
           Obx(
             () => authController.isLoading.value
                 ? CircularProgressIndicator()
@@ -239,8 +239,8 @@ class AuthForm extends StatelessWidget {
                         backgroundColor: Colors.cyan,
                         foregroundColor: Colors.white,
                       ),
-                      onPressed: () {
-                        signUpController.signUPAction();
+                      onPressed: () async{
+                       await signUpController.signUPAction();
                       },
                       child: Text(
                         'Sign Up',
@@ -252,7 +252,7 @@ class AuthForm extends StatelessWidget {
 
           SizedBox(height: height * 0.02),
 
-///----------Already have an Account-----------------
+          ///----------Already have an Account-----------------
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

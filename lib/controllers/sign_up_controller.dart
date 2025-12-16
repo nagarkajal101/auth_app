@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task03/controller/auth_controller.dart';
+import 'package:task03/controllers/auth_controller.dart';
 
 class SignUpController extends GetxController {
   final authController = Get.find<AuthController>();
@@ -125,7 +125,7 @@ class SignUpController extends GetxController {
   }
 
   //Signup action when button tappped
-  void signUPAction() {
+  Future<void> signUPAction()async {
     if (!validateAndSubmit()) return;
 
     //Full name
@@ -139,7 +139,7 @@ class SignUpController extends GetxController {
     final personAge = DateTime.now().year - birthDate.year;
 
     //for signup functionality
-    authController.signUp(
+    await authController.signUp(
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
       userName: userNameController.text.trim(),

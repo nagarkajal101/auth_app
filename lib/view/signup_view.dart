@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task03/view/auth/auth_form.dart';
+import 'package:task03/view/auth/signup_form.dart';
 import 'package:task03/view/auth/header.dart';
 
 class AuthView extends StatelessWidget {
@@ -25,8 +25,8 @@ class AuthView extends StatelessWidget {
 
               SizedBox(height: height * 0.02),
 
-              ///Login Form
-              AuthForm(),
+              ///----SignUp Form----
+              SignUpForm(),
             ],
           ),
         ),

@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthModel {
   final String uid;
   final String email;
   final String fullName;
   final String userName;
-  final DateTime dob;
+  final DateTime dob; //used in home ui
   final int age;
   final String phoneNumber;
   final String address;
@@ -29,7 +30,7 @@ class AuthModel {
       email: map['email'],
       fullName: map['fullName'],
       userName: map['userName'],
-      dob: map['dob'],
+      dob: (map['dob'] as Timestamp).toDate(),
       age: map['age'],
       phoneNumber: map['phoneNumber'],
       address: map['address'],
@@ -42,7 +43,7 @@ class AuthModel {
     return {
       'uid': uid,
       'email': email,
-      'dob': dob,
+      'dob': Timestamp.fromDate(dob),
       'phoneNumber': phoneNumber,
       'address': address,
       'fullName': fullName,

@@ -44,8 +44,8 @@ class AuthServices {
       );
 
       //Save user profile to Firstore
-      // await fireDB.collection('users').doc(user.uid).set(authModel.toMap());
-      await fireDB.collection('users').doc(user.email).set(authModel.toMap());
+      await fireDB.collection('users').doc(user.uid).set(authModel.toMap());
+      // await fireDB.collection('users').doc(user.email).set(authModel.toMap());
 
       return authModel;
     } on FirebaseAuthException catch (e) {
@@ -74,10 +74,12 @@ class AuthServices {
           .collection('users')
           .doc(user.uid)
           .get();
-      if (!doc.exists) return null;
+      if (!doc.exists) {
+        throw Exception('User not found');
+      }
+      
       return AuthModel.fromMap(doc.data() as Map<String, dynamic>);
       // -------------------********************-----------------------not used now-----------
-
     } on FirebaseAuthException catch (e) {
       throw Exception(e.message ?? 'Login failed');
     }

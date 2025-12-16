@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
+import 'package:task03/model/auth_model.dart';
 import 'package:task03/service/auth_services.dart';
 
 class AuthController extends GetxController {
   final AuthServices authService = AuthServices();
 
   final isLoading = false.obs;
+  final currentUser = Rxn<AuthModel>();
 
   ///SignUp function logic
   Future<void> signUp({
@@ -22,6 +24,7 @@ class AuthController extends GetxController {
     try {
       isLoading.value = true;
       // Call signup service
+
       await authService.signup(
         email: email,
         password: password,
@@ -52,7 +55,10 @@ class AuthController extends GetxController {
   Future<void> logIn(String email, String password) async {
     try {
       isLoading.value = true;
-      await authService.login(email, password);
+
+      final AuthModel? loggedUser = await authService.login(email, password);
+
+      currentUser.value = loggedUser;
 
       Get.offAllNamed('/home');
     } catch (e) {
