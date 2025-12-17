@@ -1,12 +1,15 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task03/controllers/auth_controller.dart';
+import 'package:task03/model/auth_model.dart';
+import 'package:task03/service/auth_services.dart';
 
 class LoginController extends GetxController {
-  final authcontroller = Get.find<AuthController>();
+  final authController = Get.find<AuthController>();
+  final AuthServices _authService = AuthServices();
 
   //Reactive variable
+  final isLoading = false.obs;
   final isPassHidden = true.obs;
 
   //Text Controller variables
@@ -36,20 +39,39 @@ class LoginController extends GetxController {
       isValid = false;
     }
 
+    //validate password
+    if (passController.text.trim().isEmpty) {
+      passwordError.value = 'Password is required';
+      isValid = false;
+    }
+
     return isValid;
   }
 
   ///------------Login Action---------------
+
   Future<void> loginAction() async {
     if (!validateAndLogin()) return;
 
     try {
-      await authcontroller.logIn(
+      isLoading.value = true;
+
+      final AuthModel? user = await _authService.login(
         emailController.text.trim(),
         passController.text.trim(),
       );
+
+      authController.setUser(user);
+
+      ///Navigate to homeScrenafter success
+      Get.offAllNamed('/home');
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar(
+        'Login Failed',
+        e.toString().replaceAll("Ecxeption", " ").trim(),
+      );
+    } finally {
+      isLoading.value = false;
     }
   }
 

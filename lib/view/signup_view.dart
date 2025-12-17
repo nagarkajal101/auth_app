@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:task03/view/auth/signup_form.dart';
-import 'package:task03/view/auth/header.dart';
 
-class AuthView extends StatelessWidget {
-  const AuthView({super.key});
+import 'login_signup_component/header.dart';
+import 'login_signup_component/signup_form.dart';
+
+class SignUpView extends StatelessWidget {
+  const SignUpView({super.key});
 
   @override
   Widget build(BuildContext context) {

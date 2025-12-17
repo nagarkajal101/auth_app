@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 
 class AuthHeader extends StatelessWidget {
-  AuthHeader({super.key, required this.text});
+  const AuthHeader({super.key, required this.text});
 
-  String text;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +30,7 @@ class AuthHeader extends StatelessWidget {
           ),
           SizedBox(height: height * 0.02),
           Text(
+            //-Login/signup text
             text,
             style: TextStyle(
               fontSize: width * 0.05,

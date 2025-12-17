@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task03/controllers/auth_controller.dart';
-import 'package:task03/view/auth/header.dart';
-import 'package:task03/view/auth/login_form.dart';
+import 'package:task03/view/login_signup_component/header.dart';
+import 'package:task03/view/login_signup_component/login_form.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});

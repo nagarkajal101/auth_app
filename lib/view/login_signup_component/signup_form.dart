@@ -30,7 +30,7 @@ class SignUpForm extends StatelessWidget {
                   () => TextField(
                     controller: signUpController.firstNameController,
                     decoration: InputDecoration(
-                      errorText: signUpController.nameError.value,
+                      errorText: signUpController.firstNameError.value,
                       prefixIcon: Icon(Icons.person),
                       labelText: 'First Name',
                       border: OutlineInputBorder(),
@@ -47,7 +47,7 @@ class SignUpForm extends StatelessWidget {
                   () => TextField(
                     controller: signUpController.lastNameController,
                     decoration: InputDecoration(
-                      errorText: signUpController.nameError.value,
+                      errorText: signUpController.lastNameError.value,
                       prefixIcon: Icon(Icons.person),
                       labelText: 'Last Name',
                       border: OutlineInputBorder(),
@@ -229,7 +229,7 @@ class SignUpForm extends StatelessWidget {
 
           ///------------Sign up button--------------
           Obx(
-            () => authController.isLoading.value
+            () => signUpController.isLoading.value
                 ? CircularProgressIndicator()
                 : SizedBox(
                     height: height * 0.06,
@@ -239,8 +239,9 @@ class SignUpForm extends StatelessWidget {
                         backgroundColor: Colors.cyan,
                         foregroundColor: Colors.white,
                       ),
-                      onPressed: () async{
-                       await signUpController.signUPAction();
+                      onPressed: () async {
+                        //  await signUpController.signUPAction();
+                        await signUpController.signupAction();
                       },
                       child: Text(
                         'Sign Up',

@@ -12,7 +12,6 @@ class AuthServices {
     required String email,
     required String password,
     required String userName,
-    required String confirmPassword,
     required int age,
     required String phoneNumber,
     required String address,
@@ -79,7 +78,7 @@ class AuthServices {
       }
       
       return AuthModel.fromMap(doc.data() as Map<String, dynamic>);
-      // -------------------********************-----------------------not used now-----------
+      // -------------------********************-------------------------
     } on FirebaseAuthException catch (e) {
       throw Exception(e.message ?? 'Login failed');
     }

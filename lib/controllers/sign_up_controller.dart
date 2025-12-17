@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task03/controllers/auth_controller.dart';
+import 'package:task03/service/auth_services.dart';
 
 class SignUpController extends GetxController {
+  final AuthServices _authService = AuthServices();
   final authController = Get.find<AuthController>();
 
   ///Text Controller variables
@@ -16,6 +18,9 @@ class SignUpController extends GetxController {
   final userNameController = TextEditingController();
 
   ///----Reactive variables----
+  ///Loader
+  final isLoading = false.obs;
+
   final isPassHidden = true.obs;
   final isConfPassHidden = true.obs;
 
@@ -28,7 +33,8 @@ class SignUpController extends GetxController {
   ///-------------------************************-------------------------
 
   //Error-variables
-  final nameError = RxnString();
+  final firstNameError = RxnString();
+  final lastNameError = RxnString();
   final userNameError = RxnString();
   final dobError = RxnString();
   final genderError = RxnString();
@@ -40,7 +46,8 @@ class SignUpController extends GetxController {
 
   /// Clear all errors
   void clearErrors() {
-    nameError.value = null;
+    firstNameError.value = null;
+    lastNameError.value = null;
     userNameError.value = null;
     dobError.value = null;
     genderError.value = null;
@@ -56,10 +63,13 @@ class SignUpController extends GetxController {
     clearErrors();
     bool isValid = true;
 
-    //Name validation
-    if (firstNameController.text.trim().isEmpty ||
-        lastNameController.text.trim().isEmpty) {
-      nameError.value = 'Required name';
+    //first Name validation
+    if (firstNameController.text.trim().isEmpty) {
+      firstNameError.value = 'Required';
+      isValid = false;
+    }
+    if (lastNameController.text.trim().isEmpty) {
+      lastNameError.value = 'Required';
       isValid = false;
     }
 
@@ -93,14 +103,8 @@ class SignUpController extends GetxController {
       isValid = false;
     }
 
-    //Email validation
-    bool validateEmail(String email) {
-      String pattern1 = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-      return RegExp(pattern1).hasMatch(email);
-    }
-
-    if (!validateEmail(emailController.text) || emailController.text.isEmpty) {
-      emailError.value = "Please Enter a valid Email ";
+    if (!GetUtils.isEmail(emailController.text.trim())) {
+      emailError.value = 'Invalid email';
       isValid = false;
     }
 
@@ -124,38 +128,54 @@ class SignUpController extends GetxController {
     return isValid;
   }
 
-  //Signup action when button tappped
-  Future<void> signUPAction()async {
+  ///claculating person age
+  int calculateAge(DateTime dob) {
+    final today = DateTime.now();
+    int age = today.year - dob.year;
+
+    if (today.month < dob.month ||
+        (today.month == dob.month && today.day < dob.day)) {
+      age--;
+    }
+    return age;
+  }
+
+  // //Signup action when button tappped
+  ///signup
+  Future<void> signupAction() async {
     if (!validateAndSubmit()) return;
 
-    //Full name
-    final fullName =
-        '${firstNameController.text.trim()} ${lastNameController.text}';
+    try {
+      isLoading.value = true;
 
-    // For calculating age
+      final dob = selectedDOB.value!;
+      final age = calculateAge(dob);
 
-    final birthDate = selectedDOB.value!;
+      await _authService.signup(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        userName: userNameController.text.trim(),
+        fullName:
+            '${firstNameController.text.trim()} ${lastNameController.text.trim()}',
+        dob: dob,
+        age: age,
+        gender: gender.value,
+        phoneNumber: phoneController.text.trim(),
+        address: addressController.text.trim(),
+      );
 
-    final personAge = DateTime.now().year - birthDate.year;
+      Get.snackbar('Verify Email', 'Verification link sent to your email');
 
-    //for signup functionality
-    await authController.signUp(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-      userName: userNameController.text.trim(),
-      confirmPassword: confirmPasswordController.text.trim(),
-      age: personAge,
-      phoneNumber: phoneController.text.trim(),
-      address: addressController.text.trim(),
-      dob: selectedDOB.value!,
-      fullName: fullName,
-      gender: gender.value,
-    );
+      Get.offAllNamed('/login');
+    } catch (e) {
+      Get.snackbar('Signup Failed', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   @override
   void onClose() {
-    // TODO: implement onClose
     firstNameController.dispose();
     lastNameController.dispose();
     addressController.dispose();

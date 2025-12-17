@@ -60,7 +60,7 @@ class LoginForm extends StatelessWidget {
         SizedBox(height: height * 0.04),
 
         Obx(
-          () => authController.isLoading.value
+          () => loginController.isLoading.value
               ? const CircularProgressIndicator()
               : SizedBox(
                   height: height * 0.06,
@@ -72,9 +72,6 @@ class LoginForm extends StatelessWidget {
                     ),
                     onPressed: () async {
                       await loginController.loginAction();
-                      // authController.logIn(
-                      // loginController.emailController.text.trim(),
-                      // loginController.passController.text.trim(),
                     },
                     child: Text(
                       'Login',
