@@ -78,7 +78,11 @@ class AuthServices {
       }
       
       return AuthModel.fromMap(doc.data() as Map<String, dynamic>);
+<<<<<<< HEAD
       // -------------------********************-------------------------
+=======
+      // -------------------********************------------------------------
+>>>>>>> 6bb341519f84663bd8da4d26464f318ac26deca3
     } on FirebaseAuthException catch (e) {
       throw Exception(e.message ?? 'Login failed');
     }
